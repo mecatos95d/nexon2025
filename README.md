@@ -1,5 +1,7 @@
 # 과제
 
+실행 : `docker-compose up`
+
 ## API 목록
 
 ### 공통 응답
