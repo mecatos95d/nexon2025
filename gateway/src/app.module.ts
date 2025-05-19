@@ -18,7 +18,7 @@ import { EventService } from './eventProxy/event.service';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: '127.0.0.1',
+            host: 'auth',
             port: 4000,
           },
         });
@@ -30,7 +30,7 @@ import { EventService } from './eventProxy/event.service';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: '127.0.0.1',
+            host: 'event',
             port: 4001,
           },
         });

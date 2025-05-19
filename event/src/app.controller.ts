@@ -41,4 +41,10 @@ export class AppController {
   async rewardClaimLog(@Payload() body) {
     return this.claimService.rewardClaimLog(body);
   }
+
+  // FOR DEMO
+  @MessagePattern('reward_valid')
+  async rewardValid(@Payload() body) {
+    return this.claimService.rewardValid(body);
+  }
 }

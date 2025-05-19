@@ -29,4 +29,9 @@ export class EventService {
   async rewardClaimLog(req: any): Promise<any> {
     return firstValueFrom(this.eventProxy.send('reward_claim_log', req));
   }
+
+  // FOR DEMO
+  async rewardValid(req: any): Promise<any> {
+    return firstValueFrom(this.eventProxy.send('reward_valid', req));
+  }
 }

@@ -177,6 +177,23 @@
   }
   ```
 
+#### POST /reward_valid (테스트 시 필요)
+
+- 요청 예시:
+  ```json
+  {
+    "event_id": "682b46701dfef68936367b51", // event_new, event_log에서 확인한 eventId/_id
+    "user_id": "682aec217cd0e746b7e810c3" // DB에 설정할 이벤트 조건 충족 설정 대상 User의 _id
+  }
+  ```
+- 응답 예시:
+  ```json
+  {
+    "success": true,
+    "message": "이벤트 조건을 충족하였습니다."
+  }
+  ```
+
 ## 미구현 사항
 
 - 유저 생성 시 권한 제어

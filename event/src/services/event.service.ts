@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 
 @Injectable()
 export class EventService {
-  private readonly uri = 'mongodb://localhost:27017';
+  private readonly uri = 'mongodb://mongodb:27017';
   private readonly dbName = 'event';
   private readonly collectionName = 'event';
 

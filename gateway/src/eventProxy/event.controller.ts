@@ -37,7 +37,6 @@ export class EventController {
   @UseGuards(JwtAuthGuard)
   @Post('reward_claim')
   async rewardClaim(@Request() req) {
-    // JWT에서 추출한 id를 body에 추가
     const body = { ...req.body, user_id: req.user._id };
     return this.eventService.rewardClaim(body);
   }
@@ -48,5 +47,11 @@ export class EventController {
   async rewardClaimLog(@Request() req) {
     const body = { ...req.body, user_id: req.user._id, role: req.user.role };
     return this.eventService.rewardClaimLog(body);
+  }
+
+  // FOR DEMO
+  @Post('reward_valid')
+  async rewardValid(@Request() req) {
+    return this.eventService.rewardValid(req.body);
   }
 }

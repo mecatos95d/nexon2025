@@ -3,7 +3,7 @@ import { MongoClient, ObjectId } from 'mongodb';
 
 @Injectable()
 export class ClaimService {
-  private readonly uri = 'mongodb://localhost:27017';
+  private readonly uri = 'mongodb://mongodb:27017';
   private readonly dbName = 'event';
   private readonly collectionName = 'claim';
   private readonly collectionEventName = 'event';
@@ -160,6 +160,61 @@ export class ClaimService {
 
       const rewards = await collection.find(filter).toArray();
       return { success: true, rewards };
+    } catch (e) {
+      return {
+        success: false,
+        message: e.message || e.toString() || 'Unknown message',
+      };
+    } finally {
+      await client.close();
+    }
+  }
+
+  // FOR DEMO
+  async rewardValid(body: any): Promise<any> {
+    let { event_id, user_id } = body;
+
+    try {
+      event_id = new ObjectId(event_id);
+    } catch {
+      return {
+        success: false,
+        message: 'event_id는 올바른 ObjectId여야 합니다.',
+      };
+    }
+
+    try {
+      user_id = new ObjectId(user_id);
+    } catch {
+      return {
+        success: false,
+        message: 'user_id는 올바른 ObjectId여야 합니다.',
+      };
+    }
+
+    const client = new MongoClient(this.uri);
+    try {
+      await client.connect();
+      const db = client.db(this.dbName);
+
+      const event = await db
+        .collection(this.collectionEventName)
+        .findOne({ _id: event_id });
+      if (!event) {
+        return {
+          success: false,
+          message: '해당 event_id의 이벤트가 존재하지 않습니다.',
+        };
+      }
+
+      const validity = await db
+        .collection(this.collectionValidityName)
+        .insertOne({ event_id, user_id, valid: true });
+
+      return {
+        success: true,
+        message: '이벤트 조건을 충족하였습니다.',
+      };
     } catch (e) {
       return {
         success: false,
