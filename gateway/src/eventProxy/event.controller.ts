@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
@@ -12,38 +12,41 @@ export class EventController {
   @Roles('ADMIN', 'OPERATOR')
   @Post('event_new')
   async eventNew(@Request() req) {
-    return this.eventService.eventNew(req);
+    return this.eventService.eventNew(req.body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'OPERATOR')
-  @Get('event_log')
+  @Post('event_log')
   async eventLog(@Request() req) {
-    return this.eventService.eventLog(req);
+    return this.eventService.eventLog(req.body);
   }
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'OPERATOR')
   @Post('reward_new')
   async rewardNew(@Request() req) {
-    return this.eventService.rewardNew(req);
+    return this.eventService.rewardNew(req.body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'OPERATOR')
-  @Get('reward_log')
+  @Post('reward_log')
   async rewardLog(@Request() req) {
-    return this.eventService.rewardLog(req);
+    return this.eventService.rewardLog(req.body);
   }
   @UseGuards(JwtAuthGuard)
   @Post('reward_claim')
   async rewardClaim(@Request() req) {
-    return this.eventService.rewardClaim(req);
+    // JWT에서 추출한 id를 body에 추가
+    const body = { ...req.body, user_id: req.user._id };
+    return this.eventService.rewardClaim(body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'AUDITOR', 'OPERATOR')
-  @Get('reward_claim_log')
+  @Roles('ADMIN', 'AUDITOR', 'OPERATOR', 'USER')
+  @Post('reward_claim_log')
   async rewardClaimLog(@Request() req) {
-    return this.eventService.rewardClaimLog(req);
+    const body = { ...req.body, user_id: req.user._id, role: req.user.role };
+    return this.eventService.rewardClaimLog(body);
   }
 }

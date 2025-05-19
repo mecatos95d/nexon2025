@@ -13,7 +13,7 @@ export class AppService {
     const user = await this.authService.validateUser(id, password);
     if (!user) throw new Error('Invalid credentials');
 
-    const payload = (({ id, role }) => ({ id, role }))(user);
+    const payload = (({ _id, id, role }) => ({ _id, id, role }))(user);
 
     return { success: true, access_token: this.jwtService.sign(payload) };
   }
