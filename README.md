@@ -198,6 +198,8 @@
 
 ## 미구현 사항
 
+- TypeScript type hinting 사용
+- DTO 정의 및 사용
 - 유저 생성 시 권한 제어
 - Gateway 및 Event에서의 jest testing
 - reward DB에서 items의 구조 개선 (list형식에서 개선)
